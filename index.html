@@ -24,78 +24,90 @@
 
         <nav class="menu">
 
-           <a href="#" onclick="abrirTela('dashboard')" class="active">Dashboard</a>
+            <a href="#" class="active">Dashboard</a>
 
-<a href="#" onclick="abrirTela('leads')">Leads</a>
+            <a href="#">Leads</a>
 
-<a href="#" onclick="abrirTela('clientes')">Clientes</a>
+            <a href="#">Clientes</a>
 
-<a href="#" onclick="abrirTela('pipeline')">Pipeline</a>
+            <a href="#">Pipeline</a>
 
-<a href="#" onclick="abrirTela('agenda')">Agenda</a>
+            <a href="#">Agenda</a>
 
-<a href="#" onclick="abrirTela('consultorias')">Consultorias</a>
+            <a href="#">Consultorias</a>
 
-<a href="#" onclick="abrirTela('financeiro')">Financeiro</a>
+            <a href="#">Financeiro</a>
 
-<a href="#" onclick="abrirTela('relatorios')">Relatórios</a>
+            <a href="#">Relatórios</a>
 
-<a href="#" onclick="abrirTela('configuracoes')">Configurações</a>
+            <a href="#">Configurações</a>
+
         </nav>
 
     </aside>
 
     <main class="content">
 
-    <div id="appContent">
-
         <header class="topbar">
 
-            <div class="header-left">
+            <div>
 
-                <div>
+                <h1>MGR CRM Premium</h1>
 
-                    <h1>MGR CRM Premium</h1>
-
-                    <p>Painel Executivo</p>
-
-                </div>
+                <p>Sistema de Gestão Comercial</p>
 
             </div>
 
-            <div class="header-right">
+            <div class="profile">
 
-                <div class="search-box">
-
-                    <input
-                        id="pesquisaGlobal"
-                        type="text"
-                        placeholder="Pesquisar..."
-                    >
-
-                </div>
-
-                <button class="icon-button">🔔</button>
-
-                <button class="icon-button">⚙️</button>
-
-                <div class="profile">
-
-                    Marcelo Prestes
-
-                </div>
+                Marcelo Prestes
 
             </div>
 
         </header>
 
-        <div id="pageContainer">
+        <section class="dashboard">
 
-        </div>
+            <div class="cards">
 
-    </div>
+                <div class="card">
 
-</main>
+                    <span>Total de Leads</span>
+
+                    <h2 id="totalLeads">0</h2>
+
+                </div>
+
+                <div class="card">
+
+                    <span>Clientes</span>
+
+                    <h2 id="totalClientes">0</h2>
+
+                </div>
+
+                <div class="card">
+
+                    <span>Consultorias</span>
+
+                    <h2 id="totalConsultorias">0</h2>
+
+                </div>
+
+                <div class="card">
+
+                    <span>Conversão</span>
+
+                    <h2 id="taxaConversao">0%</h2>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
 </div>
 
 <script src="js/app.js"></script>
