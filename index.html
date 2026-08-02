@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MGR CRM BUILD 009</title>
+<title>MGR API Teste v2.5 - BUILD 008.1</title>
 
 <style>
 *{
@@ -193,6 +193,48 @@ padding:20px;
 }
 
 }
+
+
+/* BUILD 008.1 — Diagnóstico MGR */
+.diag-shell{max-width:1050px;margin:0 auto}
+.diag-hero{background:linear-gradient(135deg,#161b22,#111827);border:1px solid rgba(212,175,55,.22);border-radius:22px;padding:26px;margin-bottom:22px;box-shadow:0 18px 55px rgba(0,0,0,.22)}
+.diag-kicker{color:#d4af37;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.diag-title{font-size:30px;margin:0 0 8px}
+.diag-copy{color:#aeb8c7;line-height:1.6;max-width:760px}
+.diag-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.diag-field{display:flex;flex-direction:column;gap:7px}
+.diag-field.full{grid-column:1/-1}
+.diag-field label{font-size:12px;font-weight:700;color:#cbd5e1;text-transform:uppercase;letter-spacing:.7px}
+.diag-field input,.diag-field select{width:100%;padding:13px 14px;border-radius:11px;border:1px solid #2a3442;background:#0d1117;color:#fff;outline:none}
+.diag-field input:focus,.diag-field select:focus{border-color:#d4af37;box-shadow:0 0 0 3px rgba(212,175,55,.1)}
+.diag-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.diag-btn{border:none;border-radius:10px;padding:12px 18px;font-weight:800;cursor:pointer}
+.diag-btn.primary{background:#d4af37;color:#111}
+.diag-btn.secondary{background:#1f2937;color:#fff;border:1px solid #334155}
+.diag-btn.ghost{background:transparent;color:#cbd5e1;border:1px solid #334155}
+.diag-progress-wrap{margin-bottom:20px}
+.diag-progress-meta{display:flex;justify-content:space-between;gap:15px;font-size:13px;color:#aeb8c7;margin-bottom:9px}
+.diag-progress{height:9px;background:#0d1117;border-radius:999px;overflow:hidden;border:1px solid #273244}
+.diag-progress>div{height:100%;background:linear-gradient(90deg,#b99126,#e5c75f);transition:width .25s ease}
+.diag-question-card{background:#161b22;border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:28px}
+.diag-pillar{display:inline-flex;padding:6px 11px;border-radius:999px;background:rgba(212,175,55,.12);color:#e4c65f;font-size:12px;font-weight:800;margin-bottom:15px}
+.diag-question{font-size:23px;line-height:1.38;margin-bottom:22px}
+.diag-options{display:grid;gap:10px}
+.diag-option{display:flex;align-items:flex-start;gap:12px;padding:14px;border:1px solid #2a3442;border-radius:12px;background:#111827;cursor:pointer;transition:.2s}
+.diag-option:hover{border-color:#6b5a23;transform:translateY(-1px)}
+.diag-option.selected{border-color:#d4af37;background:rgba(212,175,55,.1)}
+.diag-option input{margin-top:3px;accent-color:#d4af37}
+.diag-option strong{display:block;margin-bottom:3px}
+.diag-option small{color:#94a3b8;line-height:1.35}
+.diag-footer-nav{display:flex;justify-content:space-between;gap:12px;margin-top:20px}
+.diag-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:18px}
+.diag-summary-card{padding:16px;border-radius:14px;background:#111827;border:1px solid #2a3442}
+.diag-summary-card span{font-size:12px;color:#94a3b8}
+.diag-summary-card strong{display:block;margin-top:7px;font-size:18px;color:#d4af37}
+.diag-alert{padding:12px 14px;border-radius:10px;margin-top:14px;background:#13251e;border:1px solid #1f6849;color:#b7f7d9;display:none}
+.diag-alert.show{display:block}
+@media(max-width:760px){.diag-form-grid{grid-template-columns:1fr}.diag-field.full{grid-column:auto}.diag-title{font-size:25px}.diag-question{font-size:20px}.diag-question-card,.diag-hero{padding:20px}.diag-footer-nav{flex-direction:column-reverse}.diag-footer-nav .diag-btn{width:100%}}
+
 </style>
 
 </head>
@@ -244,6 +286,8 @@ Navegação
 <button data-page="relatorios">📈 Relatórios</button>
 
 <button data-page="configuracoes">⚙ Configurações</button>
+
+<button data-page="apiteste">🛰️ MGR API Teste</button>
 
 </div>
 
@@ -441,7 +485,43 @@ ${Components.card("Convertidos",11)}
  consultorias:()=>Components.section("Consultorias","<p>Módulo preparado.</p>"),
  financeiro:()=>Components.section("Financeiro","<p>Módulo preparado.</p>"),
  relatorios:()=>Components.section("Relatórios","<p>Módulo preparado.</p>"),
- configuracoes:()=>Components.section("Configurações","<p>Módulo preparado.</p>")
+ configuracoes:()=>Components.section("Configurações","<p>Módulo preparado.</p>"),
+ apiteste:()=>`
+<h1>MGR API Teste v2.5</h1>
+<div class="subtitle">BUILD 008.1 • API Console Premium</div>
+
+<div class="section" style="margin-bottom:20px">
+<h3>Central de Integração MGR</h3>
+<p>Painel operacional do ecossistema MGR.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
+<div>⚪ Cloudflare Worker</div>
+<div>⚪ Banco D1</div>
+<div>⚪ API MGR</div>
+<div>⚪ Endpoint /leads</div>
+<div>⚪ Endpoint /clientes</div>
+<div>⚪ Endpoint /consultorias</div>
+<div>⚪ WhatsApp</div>
+<div>⚪ Zoho Mail</div>
+</div>
+<div style="margin-top:15px">
+<button onclick="alert('Diagnóstico será implementado na Build 008')">Diagnóstico Completo</button>
+<button onclick="localStorage.clear();alert('Cache limpo')">Limpar Cache</button>
+</div>
+</div>
+<div class="section">
+<p><b>URL da API</b></p>
+<input style="width:100%;padding:10px" value="https://">
+<p style="margin-top:15px"><b>Bearer Token</b></p><input style="width:100%;padding:10px" placeholder="Cole aqui o token Bearer"><p style="margin-top:15px"><b>Método</b></p>
+<select style="padding:10px"><option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option></select>
+<p style="margin-top:15px"><b>Endpoint</b></p>
+<input style="width:100%;padding:10px" placeholder="/leads">
+<p style="margin-top:15px"><b>Body JSON</b></p>
+<textarea style="width:100%;height:180px;padding:10px">{}</textarea>
+<div style="margin-top:15px;display:flex;gap:10px"><button>Executar Teste</button><button onclick="try{const t=document.querySelector('textarea');t.value=JSON.stringify(JSON.parse(t.value),null,2);}catch(e){alert('JSON inválido')}">Formatar JSON</button><button onclick="document.querySelector('textarea').value='{}'">Limpar</button></div>
+<div style="margin-top:20px;border:1px solid #333;padding:12px;border-radius:8px"><pre id="apiResponse" style="white-space:pre-wrap">Resposta da API
+
+Status HTTP: -- | Tempo: -- ms</pre></div>
+</div>`
 };
 
 const App={
@@ -824,8 +904,255 @@ App.render();
 <div id="buildinfo" style="position:fixed;right:15px;bottom:15px;
 background:#d4af37;color:#000;padding:10px 14px;border-radius:10px;
 font-weight:bold;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:9999">
-BUILD 009 • Gestão completa de Leads D1
+BUILD 008.1 • MGR API Teste v2.5
 </div>
+
+
+<script>
+(function(){
+const old=window.App&&App.render;
+if(old){
+ const r=App.render.bind(App);
+ App.render=function(){
+   r();
+   const b=[...document.querySelectorAll("button")].find(x=>x.textContent.includes("Executar Teste"));
+   if(b && !b.dataset.bound){
+      b.dataset.bound="1";
+      b.onclick=async ()=>{
+        const inputs=document.querySelectorAll("input");
+        const url=inputs[0]?.value.trim()||"";
+        const token=inputs[1]?.value.trim()||"";
+        const method=document.querySelector("select").value;
+        const endpoint=inputs[2]?.value.trim()||"";
+        const body=document.querySelector("textarea").value||"{}";
+        const out=document.getElementById("apiResponse");
+        const t0=performance.now();
+        try{
+          const opt={method,headers:{}};
+          if(token) opt.headers.Authorization="Bearer "+token;
+          if(method!=="GET"){
+            opt.headers["Content-Type"]="application/json";
+            opt.body=body;
+          }
+          const resp=await fetch(url+endpoint,opt);
+          const txt=await resp.text();
+          const ms=Math.round(performance.now()-t0);
+          out.textContent="Status HTTP: "+resp.status+" | Tempo: "+ms+" ms\n\n"+txt;
+        }catch(e){
+          out.textContent="Erro: "+e.message;
+        }
+      };
+   }
+ };
+}
+})();
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+  const app=document.getElementById("app");
+  const observer=new MutationObserver(()=>{
+    const out=document.getElementById("apiResponse");
+    if(!out) return;
+    if(document.getElementById("apiTools")) return;
+    const bar=document.createElement("div");
+    bar.id="apiTools";
+    bar.style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap";
+    bar.innerHTML=`
+      <button id="copyResp">Copiar Resposta</button>
+      <button id="downloadResp">Download JSON</button>
+      <span id="histInfo" style="align-self:center"></span>
+      <div id="history" style="width:100%;margin-top:10px;font-size:12px"></div>`;
+    out.parentNode.appendChild(bar);
+    const hist=JSON.parse(localStorage.getItem("mgr_api_history")||"[]");
+    const render=()=>{
+      document.getElementById("histInfo").textContent="Histórico: "+hist.length+" teste(s)";
+      document.getElementById("history").innerHTML=hist.map(h=>"<div>• "+h+"</div>").join("");
+    };
+    render();
+    document.getElementById("copyResp").onclick=()=>navigator.clipboard.writeText(out.textContent);
+    document.getElementById("downloadResp").onclick=()=>{
+      const blob=new Blob([out.textContent],{type:"application/json"});
+      const a=document.createElement("a");
+      a.href=URL.createObjectURL(blob);
+      a.download="api-response.json";
+      a.click();
+    };
+    const exec=[...document.querySelectorAll("button")].find(b=>b.textContent.includes("Executar Teste"));
+    if(exec){
+      exec.addEventListener("click",()=>{
+        setTimeout(()=>{
+          hist.unshift(new Date().toLocaleString()+" - teste executado");
+          localStorage.setItem("mgr_api_history",JSON.stringify(hist.slice(0,20)));
+          render();
+        },300);
+      });
+    }
+  });
+  observer.observe(app,{childList:true,subtree:true});
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+ const obs=new MutationObserver(()=>{
+   const sec=[...document.querySelectorAll(".section")].find(s=>s.innerText.includes("URL da API"));
+   if(!sec || document.getElementById("mgrStatus")) return;
+   const box=document.createElement("div");
+   box.id="mgrStatus";
+   box.style="margin-bottom:20px;padding:18px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:#161b22";
+   box.innerHTML=`
+   <h3>Painel de Integração MGR</h3>
+   <div id="statusGrid" style="display:grid;grid-template-columns:repeat(2,minmax(180px,1fr));gap:10px;margin:15px 0">
+    <div>⚪ Worker</div>
+    <div>⚪ Banco D1</div>
+    <div>⚪ Endpoint /leads</div>
+    <div>⚪ API</div>
+   </div>
+   <button id="diagBtn">Diagnosticar API</button>
+   <div id="diagOut" style="margin-top:12px;font-size:13px"></div>`;
+   sec.parentNode.insertBefore(box,sec);
+   document.getElementById("diagBtn").onclick=async()=>{
+      const url=(document.querySelector("input")||{}).value||"";
+      const out=document.getElementById("diagOut");
+      if(!url){out.textContent="Informe a URL da API.";return;}
+      try{
+        const t=performance.now();
+        const r=await fetch(url,{method:"GET"});
+        const ms=Math.round(performance.now()-t);
+        document.getElementById("statusGrid").innerHTML=
+        `<div>🟢 Worker</div><div>${r.ok?"🟢":"🟡"} Banco D1</div><div>${r.ok?"🟢":"🟡"} Endpoint</div><div>${r.ok?"🟢":"🔴"} API</div>`;
+        out.textContent=`Diagnóstico concluído • HTTP ${r.status} • ${ms} ms`;
+      }catch(e){
+        out.textContent="Falha: "+e.message;
+      }
+   };
+ });
+ obs.observe(document.body,{childList:true,subtree:true});
+});
+</script>
+
+
+<script>
+/* BUILD 008.1 — Fundação do Diagnóstico MGR */
+(function(){
+  const QUESTIONS=[
+    {pillar:'Proteção da Renda',text:'Se sua renda fosse interrompida hoje, por quanto tempo sua estrutura financeira permaneceria estável sem comprometer o padrão de vida da família?'},
+    {pillar:'Proteção da Renda',text:'Você possui uma estratégia financeira específica para manter suas despesas essenciais em caso de afastamento temporário ou permanente do trabalho?'},
+    {pillar:'Proteção da Renda',text:'A principal fonte de renda da sua família está protegida contra imprevistos que possam impedir você de continuar trabalhando?'},
+    {pillar:'Proteção da Família',text:'Se você não pudesse mais cuidar financeiramente da sua família, os recursos atuais seriam suficientes para preservar a moradia, a educação e o padrão de vida?'},
+    {pillar:'Proteção da Família',text:'As pessoas que dependem de você sabem como acessar documentos, reservas e recursos financeiros em uma emergência?'},
+    {pillar:'Proteção da Família',text:'Você já definiu uma estratégia para evitar que dívidas, impostos ou falta de liquidez prejudiquem sua família em um processo sucessório?'},
+    {pillar:'Saúde',text:'Uma doença grave ou tratamento prolongado poderia ser enfrentado sem consumir suas reservas ou obrigar a venda de patrimônio?'},
+    {pillar:'Saúde',text:'Você possui recursos e coberturas suficientes para escolher o melhor tratamento disponível quando a saúde exigir decisões rápidas?'},
+    {pillar:'Saúde',text:'Os custos de recuperação, afastamento e adaptação da rotina familiar estão contemplados no seu planejamento financeiro?'},
+    {pillar:'Patrimônio',text:'Seu patrimônio está organizado para continuar produzindo segurança e liquidez mesmo diante de imprevistos pessoais ou empresariais?'},
+    {pillar:'Patrimônio',text:'Você conhece com clareza quais bens, dívidas, contratos e responsabilidades formam hoje o seu patrimônio líquido?'},
+    {pillar:'Patrimônio',text:'Existe uma estratégia definida para proteger, transmitir e evitar a perda de valor do patrimônio que você construiu?'},
+    {pillar:'Longevidade Financeira',text:'A reserva que você está formando permitirá manter sua liberdade financeira quando decidir reduzir ou encerrar o ritmo de trabalho?'},
+    {pillar:'Longevidade Financeira',text:'Você sabe quanto precisa acumular e quanto deve investir mensalmente para alcançar a renda futura desejada?'},
+    {pillar:'Longevidade Financeira',text:'Seu planejamento considera viver por muitos anos com qualidade, inclusive diante da inflação, dos custos de saúde e das mudanças familiares?'}
+  ];
+  const OPTIONS=[
+    {value:0,title:'Ainda não está estruturado',desc:'Este ponto ainda não foi planejado ou protegido.'},
+    {value:1,title:'Reconheço a necessidade',desc:'Sei que preciso agir, mas ainda não iniciei uma solução.'},
+    {value:2,title:'Parcialmente estruturado',desc:'Existem ações iniciais, porém ainda há exposição relevante.'},
+    {value:3,title:'Em bom andamento',desc:'Há uma estrutura funcional, mas ainda pode ser aprimorada.'},
+    {value:4,title:'Bem estruturado',desc:'Este ponto está organizado, protegido e revisado.'}
+  ];
+  const KEY='mgr_diagnostico_0081';
+  const empty=()=>({step:'cadastro',index:0,cliente:{nome:'',whatsapp:'',email:'',empresa:'',cidade:'',consultor:'Marcelo Prestes',data:new Date().toISOString().slice(0,10)},respostas:Array(15).fill(null),updatedAt:null});
+  const load=()=>{try{return {...empty(),...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return empty()}};
+  const save=(state)=>{state.updatedAt=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(state));};
+  const esc=(v='')=>String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+
+  window.DiagnosticoMGR={
+    state:load(),
+    mount(){this.state=load();this.render();},
+    view(){return `<div id="diagRoot" class="diag-shell"></div>`;},
+    render(){
+      const root=document.getElementById('diagRoot');if(!root)return;
+      if(this.state.step==='cadastro') root.innerHTML=this.cadastroHTML();
+      else if(this.state.step==='perguntas') root.innerHTML=this.perguntaHTML();
+      else root.innerHTML=this.conclusaoHTML();
+      this.bind();
+    },
+    cadastroHTML(){
+      const c=this.state.cliente;
+      const clientes=Store.load('mgr_clientes',[]);
+      return `<div class="diag-hero"><div class="diag-kicker">Método MGR • Build 008.1</div><h1 class="diag-title">Diagnóstico Financeiro Estratégico</h1><p class="diag-copy">Uma jornada consultiva com 15 perguntas para mapear o nível de estrutura nos cinco pilares do Método MGR. As respostas são salvas automaticamente neste dispositivo.</p></div>
+      <div class="diag-question-card"><h3 style="margin-bottom:18px">Identificação do atendimento</h3>
+      ${clientes.length?`<div class="diag-field full" style="margin-bottom:14px"><label>Vincular cliente já cadastrado</label><select id="diagClienteExistente"><option value="">Novo atendimento</option>${clientes.map((x,i)=>`<option value="${i}">${esc(x.nome||'Cliente sem nome')}</option>`).join('')}</select></div>`:''}
+      <div class="diag-form-grid">
+       <div class="diag-field"><label>Nome completo *</label><input id="diagNome" value="${esc(c.nome)}" placeholder="Nome do cliente"></div>
+       <div class="diag-field"><label>WhatsApp *</label><input id="diagWhatsapp" value="${esc(c.whatsapp)}" placeholder="(00) 00000-0000"></div>
+       <div class="diag-field"><label>E-mail</label><input id="diagEmail" type="email" value="${esc(c.email)}" placeholder="cliente@email.com"></div>
+       <div class="diag-field"><label>Empresa</label><input id="diagEmpresa" value="${esc(c.empresa)}" placeholder="Empresa ou atividade"></div>
+       <div class="diag-field"><label>Cidade</label><input id="diagCidade" value="${esc(c.cidade)}" placeholder="Cidade"></div>
+       <div class="diag-field"><label>Data da consultoria</label><input id="diagData" type="date" value="${esc(c.data)}"></div>
+       <div class="diag-field full"><label>Consultor responsável</label><input id="diagConsultor" value="${esc(c.consultor)}"></div>
+      </div><div id="diagAlert" class="diag-alert"></div>
+      <div class="diag-actions"><button class="diag-btn primary" id="diagIniciar">Iniciar diagnóstico</button><button class="diag-btn ghost" id="diagReiniciar">Limpar atendimento</button></div></div>`;
+    },
+    perguntaHTML(){
+      const i=this.state.index,q=QUESTIONS[i],ans=this.state.respostas[i],pct=Math.round(((i+1)/QUESTIONS.length)*100);
+      return `<div class="diag-hero"><div class="diag-kicker">Diagnóstico de ${esc(this.state.cliente.nome)}</div><h1 class="diag-title">Método MGR</h1><p class="diag-copy">Responda considerando a realidade atual do cliente. Não existem respostas certas ou erradas: o objetivo é revelar prioridades.</p></div>
+      <div class="diag-progress-wrap"><div class="diag-progress-meta"><span>Pergunta ${i+1} de ${QUESTIONS.length}</span><span>${pct}% concluído</span></div><div class="diag-progress"><div style="width:${pct}%"></div></div></div>
+      <div class="diag-question-card"><div class="diag-pillar">${q.pillar}</div><div class="diag-question">${q.text}</div><div class="diag-options">
+      ${OPTIONS.map(o=>`<label class="diag-option ${ans===o.value?'selected':''}"><input type="radio" name="diagResposta" value="${o.value}" ${ans===o.value?'checked':''}><div><strong>${o.title}</strong><small>${o.desc}</small></div></label>`).join('')}
+      </div><div id="diagAlert" class="diag-alert"></div><div class="diag-footer-nav"><button class="diag-btn secondary" id="diagAnterior">${i===0?'Voltar ao cadastro':'Pergunta anterior'}</button><button class="diag-btn primary" id="diagProxima">${i===QUESTIONS.length-1?'Concluir diagnóstico':'Próxima pergunta'}</button></div></div>`;
+    },
+    conclusaoHTML(){
+      const respondidas=this.state.respostas.filter(v=>v!==null).length,c=this.state.cliente;
+      return `<div class="diag-hero"><div class="diag-kicker">Atendimento concluído</div><h1 class="diag-title">Diagnóstico registrado com sucesso</h1><p class="diag-copy">As 15 respostas foram organizadas e vinculadas à estrutura local do CRM. O cálculo dos cinco scores será incorporado na Build 008.2.</p></div>
+      <div class="diag-question-card"><h3>Resumo do diagnóstico</h3><div class="diag-summary">
+       <div class="diag-summary-card"><span>Cliente</span><strong>${esc(c.nome)}</strong></div>
+       <div class="diag-summary-card"><span>Respostas registradas</span><strong>${respondidas}/15</strong></div>
+       <div class="diag-summary-card"><span>Data</span><strong>${esc(c.data.split('-').reverse().join('/'))}</strong></div>
+       <div class="diag-summary-card"><span>Consultor</span><strong>${esc(c.consultor)}</strong></div>
+      </div><div class="diag-actions"><button class="diag-btn primary" id="diagNovo">Novo atendimento</button><button class="diag-btn secondary" id="diagRevisar">Revisar respostas</button><button class="diag-btn ghost" id="diagAbrirCliente">Abrir no CRM</button></div></div>`;
+    },
+    bind(){
+      const by=id=>document.getElementById(id);
+      if(by('diagClienteExistente')) by('diagClienteExistente').onchange=e=>{const c=Store.load('mgr_clientes',[])[Number(e.target.value)];if(!c)return;this.state.cliente={...this.state.cliente,nome:c.nome||'',whatsapp:c.whatsapp||c.fone||'',email:c.email||'',empresa:c.empresa||'',cidade:c.cidade||''};save(this.state);this.render();};
+      ['Nome','Whatsapp','Email','Empresa','Cidade','Data','Consultor'].forEach(k=>{const el=by('diag'+k);if(el)el.oninput=()=>{this.state.cliente[k.toLowerCase()]=el.value;save(this.state);};});
+      if(by('diagIniciar')) by('diagIniciar').onclick=()=>{this.captureCadastro();if(!this.state.cliente.nome.trim()||!this.state.cliente.whatsapp.trim()){this.message('Informe nome e WhatsApp para iniciar.');return;}this.state.step='perguntas';this.state.index=this.state.respostas.findIndex(v=>v===null);if(this.state.index<0)this.state.index=0;save(this.state);this.render();};
+      if(by('diagReiniciar')) by('diagReiniciar').onclick=()=>{if(confirm('Limpar todos os dados deste atendimento?')){this.state=empty();save(this.state);this.render();}};
+      document.querySelectorAll('input[name="diagResposta"]').forEach(r=>r.onchange=()=>{this.state.respostas[this.state.index]=Number(r.value);save(this.state);this.render();});
+      if(by('diagAnterior')) by('diagAnterior').onclick=()=>{if(this.state.index===0){this.state.step='cadastro'}else this.state.index--;save(this.state);this.render();};
+      if(by('diagProxima')) by('diagProxima').onclick=()=>{if(this.state.respostas[this.state.index]===null){this.message('Selecione uma resposta para continuar.');return;}if(this.state.index<QUESTIONS.length-1){this.state.index++;save(this.state);this.render();}else this.concluir();};
+      if(by('diagNovo')) by('diagNovo').onclick=()=>{this.state=empty();save(this.state);this.render();};
+      if(by('diagRevisar')) by('diagRevisar').onclick=()=>{this.state.step='perguntas';this.state.index=0;save(this.state);this.render();};
+      if(by('diagAbrirCliente')) by('diagAbrirCliente').onclick=()=>{const btn=document.querySelector('.menu button[data-page="clientes"]');if(btn)App.navigate('clientes',btn);};
+    },
+    captureCadastro(){const map={nome:'diagNome',whatsapp:'diagWhatsapp',email:'diagEmail',empresa:'diagEmpresa',cidade:'diagCidade',data:'diagData',consultor:'diagConsultor'};Object.entries(map).forEach(([k,id])=>{const e=document.getElementById(id);if(e)this.state.cliente[k]=e.value;});save(this.state);},
+    message(t){const a=document.getElementById('diagAlert');if(a){a.textContent=t;a.classList.add('show');}},
+    concluir(){
+      const payload={id:'MGR-'+Date.now(),cliente:{...this.state.cliente},diagnostico:{versao:'008.1',perguntas:QUESTIONS.map((q,i)=>({numero:i+1,pilar:q.pillar,pergunta:q.text,resposta:this.state.respostas[i]})),concluidoEm:new Date().toISOString()},scores:{}};
+      localStorage.setItem('mgr_ultimo_diagnostico',JSON.stringify(payload));
+      const historico=Store.load('mgr_diagnosticos',[]);historico.unshift(payload);Store.save('mgr_diagnosticos',historico.slice(0,100));
+      const clientes=Store.load('mgr_clientes',[]);let pos=clientes.findIndex(c=>(c.email&&c.email===payload.cliente.email)||(c.whatsapp&&c.whatsapp===payload.cliente.whatsapp)||(c.fone&&c.fone===payload.cliente.whatsapp));
+      if(pos<0){clientes.push({...payload.cliente,fone:payload.cliente.whatsapp,timeline:[],diagnosticos:[]});pos=clientes.length-1;}
+      clientes[pos].diagnosticos=clientes[pos].diagnosticos||[];clientes[pos].diagnosticos.unshift(payload);clientes[pos].ultimoDiagnostico=payload.diagnostico.concluidoEm;clientes[pos].timeline=clientes[pos].timeline||[];clientes[pos].timeline.unshift({data:new Date().toLocaleString('pt-BR'),tipo:'Diagnóstico',txt:'Diagnóstico MGR com 15 perguntas concluído.'});
+      Store.save('mgr_clientes',clientes);Cliente.list=clientes;Cliente.selecionado=pos;
+      this.state.step='conclusao';save(this.state);this.render();
+    }
+  };
+
+  Views.diagnostico=()=>DiagnosticoMGR.view();
+  const menu=document.querySelector('.menu');
+  if(menu&&!menu.querySelector('[data-page="diagnostico"]')){
+    const api=menu.querySelector('[data-page="apiteste"]');
+    const btn=document.createElement('button');btn.dataset.page='diagnostico';btn.innerHTML='🧭 Diagnóstico MGR';
+    menu.insertBefore(btn,api||null);
+    btn.onclick=()=>App.navigate('diagnostico',btn);
+  }
+  const previousRender=App.render.bind(App);
+  App.render=function(){previousRender();if(this.currentPage==='diagnostico')DiagnosticoMGR.mount();};
+})();
+</script>
 
 </body>
 </html>
