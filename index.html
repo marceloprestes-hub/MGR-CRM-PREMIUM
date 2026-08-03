@@ -1123,22 +1123,61 @@ document.addEventListener("DOMContentLoaded",()=>{
       document.querySelectorAll('input[name="diagResposta"]').forEach(r=>r.onchange=()=>{this.state.respostas[this.state.index]=Number(r.value);save(this.state);this.render();});
       if(by('diagAnterior')) by('diagAnterior').onclick=()=>{if(this.state.index===0){this.state.step='cadastro'}else this.state.index--;save(this.state);this.render();};
       if(by('diagProxima')) by('diagProxima').onclick=()=>{if(this.state.respostas[this.state.index]===null){this.message('Selecione uma resposta para continuar.');return;}if(this.state.index<QUESTIONS.length-1){this.state.index++;save(this.state);this.render();}else this.concluir();};
-      if(by('diagNovo')) by('diagNovo').onclick=()=>{this.state=empty();save(this.state);this.render();};
+    if(by('diagNovo'))
+    by('diagNovo').onclick=()=>{
+
+        localStorage.removeItem('mgr_diagnostico_0081');
+        localStorage.removeItem('mgr_ultimo_diagnostico');
+
+        this.state=empty();
+
+        save(this.state);
+
+        this.render();
+
+    };
       if(by('diagRevisar')) by('diagRevisar').onclick=()=>{this.state.step='perguntas';this.state.index=0;save(this.state);this.render();};
       if(by('diagAbrirCliente')) by('diagAbrirCliente').onclick=()=>{const btn=document.querySelector('.menu button[data-page="clientes"]');if(btn)App.navigate('clientes',btn);};
     },
     captureCadastro(){const map={nome:'diagNome',whatsapp:'diagWhatsapp',email:'diagEmail',empresa:'diagEmpresa',cidade:'diagCidade',data:'diagData',consultor:'diagConsultor'};Object.entries(map).forEach(([k,id])=>{const e=document.getElementById(id);if(e)this.state.cliente[k]=e.value;});save(this.state);},
     message(t){const a=document.getElementById('diagAlert');if(a){a.textContent=t;a.classList.add('show');}},
-    concluir(){
-      const payload={id:'MGR-'+Date.now(),cliente:{...this.state.cliente},diagnostico:{versao:'008.1',perguntas:QUESTIONS.map((q,i)=>({numero:i+1,pilar:q.pillar,pergunta:q.text,resposta:this.state.respostas[i]})),concluidoEm:new Date().toISOString()},scores:{}};
-      localStorage.setItem('mgr_ultimo_diagnostico',JSON.stringify(payload));
-      const historico=Store.load('mgr_diagnosticos',[]);historico.unshift(payload);Store.save('mgr_diagnosticos',historico.slice(0,100));
-      const clientes=Store.load('mgr_clientes',[]);let pos=clientes.findIndex(c=>(c.email&&c.email===payload.cliente.email)||(c.whatsapp&&c.whatsapp===payload.cliente.whatsapp)||(c.fone&&c.fone===payload.cliente.whatsapp));
-      if(pos<0){clientes.push({...payload.cliente,fone:payload.cliente.whatsapp,timeline:[],diagnosticos:[]});pos=clientes.length-1;}
-      clientes[pos].diagnosticos=clientes[pos].diagnosticos||[];clientes[pos].diagnosticos.unshift(payload);clientes[pos].ultimoDiagnostico=payload.diagnostico.concluidoEm;clientes[pos].timeline=clientes[pos].timeline||[];clientes[pos].timeline.unshift({data:new Date().toLocaleString('pt-BR'),tipo:'Diagnóstico',txt:'Diagnóstico MGR com 15 perguntas concluído.'});
-      Store.save('mgr_clientes',clientes);Cliente.list=clientes;Cliente.selecionado=pos;
-      this.state.step='conclusao';save(this.state);this.render();
-    }
+   concluir(){
+
+    const payload={
+        id:'MGR-'+Date.now(),
+        cliente:{...this.state.cliente},
+        diagnostico:{
+            versao:'008.2',
+            perguntas:QUESTIONS.map((q,i)=>({
+                numero:i+1,
+                pilar:q.pillar,
+                pergunta:q.text,
+                resposta:this.state.respostas[i]
+            })),
+            concluidoEm:new Date().toISOString()
+        },
+        scores:{}
+    };
+
+    localStorage.setItem(
+        'mgr_ultimo_diagnostico',
+        JSON.stringify(payload)
+    );
+
+    const historico=Store.load('mgr_diagnosticos',[]);
+    historico.unshift(payload);
+    Store.save(
+        'mgr_diagnosticos',
+        historico.slice(0,100)
+    );
+
+    this.state.step='conclusao';
+
+    save(this.state);
+
+    this.render();
+
+}
   };
 
   Views.diagnostico=()=>DiagnosticoMGR.view();
