@@ -1426,19 +1426,26 @@ document.addEventListener("DOMContentLoaded",()=>{
       document.querySelectorAll('input[name="diagResposta"]').forEach(r=>r.onchange=()=>{this.state.respostas[this.state.index]=Number(r.value);save(this.state);this.render();});
       if(by('diagAnterior')) by('diagAnterior').onclick=()=>{if(this.state.index===0){this.state.step='cadastro'}else this.state.index--;save(this.state);this.render();};
       if(by('diagProxima')) by('diagProxima').onclick=()=>{if(this.state.respostas[this.state.index]===null){this.message('Selecione uma resposta para continuar.');return;}if(this.state.index<QUESTIONS.length-1){this.state.index++;save(this.state);this.render();}else this.concluir();};
-    if(by('diagNovo'))
-    by('diagNovo').onclick=()=>{
+   if(by('diagNovo')) by('diagNovo').onclick=()=>{
 
-        localStorage.removeItem('mgr_diagnostico_0081');
-        localStorage.removeItem('mgr_ultimo_diagnostico');
+    if(!confirm('Iniciar um novo atendimento? O diagnóstico atual será encerrado.')){
+        return;
+    }
 
-        this.state=empty();
+    localStorage.removeItem(KEY);
 
-        save(this.state);
+    this.state=empty();
 
-        this.render();
+    this.state.step='cadastro';
+    this.state.index=0;
+    this.state.respostas=Array(QUESTIONS.length).fill(null);
+    this.state.updatedAt=null;
 
-    };
+    save(this.state);
+
+    this.render();
+
+};
       if(by('diagRevisar')) by('diagRevisar').onclick=()=>{this.state.step='perguntas';this.state.index=0;save(this.state);this.render();};
       if(by('diagAbrirCliente')) by('diagAbrirCliente').onclick=()=>{const btn=document.querySelector('.menu button[data-page="clientes"]');if(btn)App.navigate('clientes',btn);};
     },
