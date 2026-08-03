@@ -1062,6 +1062,71 @@ document.addEventListener("DOMContentLoaded",()=>{
     {value:3,title:'Em bom andamento',desc:'Há uma estrutura funcional, mas ainda pode ser aprimorada.'},
     {value:4,title:'Bem estruturado',desc:'Este ponto está organizado, protegido e revisado.'}
   ];
+ function calcularScores(respostas){
+
+    const resultado={
+        renda:0,
+        familia:0,
+        saude:0,
+        patrimonio:0,
+        longevidade:0,
+        geral:0
+    };
+
+    const quantidade={
+        renda:0,
+        familia:0,
+        saude:0,
+        patrimonio:0,
+        longevidade:0
+    };
+
+    QUESTIONS.forEach((q,i)=>{
+
+        const valor=Number(respostas[i]||0);
+
+        const chave=q.pillar
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g,"")
+            .replace(/\s+/g,"");
+
+        if(resultado[chave]===undefined)return;
+
+        resultado[chave]+=valor;
+
+        quantidade[chave]+=4;
+
+    });
+
+    Object.keys(quantidade).forEach(chave=>{
+
+        if(quantidade[chave]===0)return;
+
+        resultado[chave]=Math.round(
+
+            (resultado[chave]/quantidade[chave])*100
+
+        );
+
+    });
+
+      resultado.geral=Math.round(
+
+        (
+            resultado.renda+
+            resultado.familia+
+            resultado.saude+
+            resultado.patrimonio+
+            resultado.longevidade
+        )/5
+
+    );
+
+    return resultado;
+
+}
+
   const KEY='mgr_diagnostico_0081';
   const empty=()=>({step:'cadastro',index:0,cliente:{nome:'',whatsapp:'',email:'',empresa:'',cidade:'',consultor:'Marcelo Prestes',data:new Date().toISOString().slice(0,10)},respostas:Array(15).fill(null),updatedAt:null});
   const load=()=>{try{return {...empty(),...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return empty()}};
@@ -1156,7 +1221,7 @@ document.addEventListener("DOMContentLoaded",()=>{
             })),
             concluidoEm:new Date().toISOString()
         },
-        scores:{}
+        scores:calcularScores(this.state.respostas)
     };
 
     localStorage.setItem(
