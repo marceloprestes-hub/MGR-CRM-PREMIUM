@@ -1231,8 +1231,37 @@ document.addEventListener("DOMContentLoaded",()=>{
   const esc=(v='')=>String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 
   
+   window.DiagnosticoMGR={
+
     state:load(),
-    mount(){this.state=load();this.render();},
+
+    mount(){
+        this.state=load();
+        this.render();
+    },
+
+    view(){
+        return `<div id="diagRoot" class="diag-shell"></div>`;
+    },
+
+    render(){
+
+        const root=document.getElementById('diagRoot');
+
+        if(!root) return;
+
+        if(this.state.step==='cadastro')
+            root.innerHTML=this.cadastroHTML();
+
+        else if(this.state.step==='perguntas')
+            root.innerHTML=this.perguntaHTML();
+
+        else
+            root.innerHTML=this.conclusaoHTML();
+
+        this.bind();
+
+    },
     view(){return `<div id="diagRoot" class="diag-shell"></div>`;},
     render(){
       const root=document.getElementById('diagRoot');if(!root)return;
