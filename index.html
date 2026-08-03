@@ -1230,7 +1230,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   const save=(state)=>{state.updatedAt=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(state));};
   const esc=(v='')=>String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 
-  window.DiagnosticoMGR={
+  
     state:load(),
     mount(){this.state=load();this.render();},
     view(){return `<div id="diagRoot" class="diag-shell"></div>`;},
