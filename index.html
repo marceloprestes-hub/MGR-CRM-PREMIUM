@@ -1262,14 +1262,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         this.bind();
 
     },
-    view(){return `<div id="diagRoot" class="diag-shell"></div>`;},
-    render(){
-      const root=document.getElementById('diagRoot');if(!root)return;
-      if(this.state.step==='cadastro') root.innerHTML=this.cadastroHTML();
-      else if(this.state.step==='perguntas') root.innerHTML=this.perguntaHTML();
-      else root.innerHTML=this.conclusaoHTML();
-      this.bind();
-    },
+    
     cadastroHTML(){
       const c=this.state.cliente;
       const clientes=Store.load('mgr_clientes',[]);
