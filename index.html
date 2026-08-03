@@ -1159,7 +1159,15 @@ document.addEventListener("DOMContentLoaded",()=>{
     {value:3,title:'Em bom andamento',desc:'Há uma estrutura funcional, mas ainda pode ser aprimorada.'},
     {value:4,title:'Bem estruturado',desc:'Este ponto está organizado, protegido e revisado.'}
   ];
- function calcularScores(respostas){
+function calcularScores(respostas){
+
+    const mapa={
+        "Proteção da Renda":"renda",
+        "Proteção da Família":"familia",
+        "Saúde":"saude",
+        "Patrimônio":"patrimonio",
+        "Longevidade Financeira":"longevidade"
+    };
 
     const resultado={
         renda:0,
@@ -1180,36 +1188,34 @@ document.addEventListener("DOMContentLoaded",()=>{
 
     QUESTIONS.forEach((q,i)=>{
 
-        const valor=Number(respostas[i]||0);
+        const chave=mapa[q.pillar];
+        if(!chave) return;
 
-        const chave=q.pillar
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g,"")
-            .replace(/\s+/g,"");
+        const valor=Number(respostas[i]);
 
-        if(resultado[chave]===undefined)return;
+        if(isNaN(valor)) return;
 
         resultado[chave]+=valor;
-
-        quantidade[chave]+=4;
+        quantidade[chave]++;
 
     });
 
-    Object.keys(quantidade).forEach(chave=>{
+    Object.keys(resultado).forEach(chave=>{
 
-        if(quantidade[chave]===0)return;
+        if(chave==="geral") return;
+
+        if(!quantidade[chave]){
+            resultado[chave]=0;
+            return;
+        }
 
         resultado[chave]=Math.round(
-
-            (resultado[chave]/quantidade[chave])*100
-
+            (resultado[chave]/(quantidade[chave]*4))*100
         );
 
     });
 
-      resultado.geral=Math.round(
-
+    resultado.geral=Math.round(
         (
             resultado.renda+
             resultado.familia+
@@ -1217,7 +1223,6 @@ document.addEventListener("DOMContentLoaded",()=>{
             resultado.patrimonio+
             resultado.longevidade
         )/5
-
     );
 
     return resultado;
