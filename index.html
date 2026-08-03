@@ -234,7 +234,104 @@ padding:20px;
 .diag-alert{padding:12px 14px;border-radius:10px;margin-top:14px;background:#13251e;border:1px solid #1f6849;color:#b7f7d9;display:none}
 .diag-alert.show{display:block}
 @media(max-width:760px){.diag-form-grid{grid-template-columns:1fr}.diag-field.full{grid-column:auto}.diag-title{font-size:25px}.diag-question{font-size:20px}.diag-question-card,.diag-hero{padding:20px}.diag-footer-nav{flex-direction:column-reverse}.diag-footer-nav .diag-btn{width:100%}}
+/* BUILD 008.2 — Scores */
 
+.mgr-score-item{
+
+    margin-top:18px;
+
+}
+
+.mgr-score-item label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:700;
+
+    color:#d4af37;
+
+}
+
+.mgr-score-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.mgr-score-row span{
+
+    width:55px;
+
+    text-align:right;
+
+    font-weight:bold;
+
+    color:#ffffff;
+
+}
+
+.mgr-score-bar{
+
+    flex:1;
+
+    height:18px;
+
+    background:#0d1117;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    border:1px solid #2a3442;
+
+}
+
+.mgr-score-fill{
+
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        #b99126,
+        #d4af37,
+        #f4d76b
+    );
+
+    transition:.5s;
+
+}
+
+.mgr-score-total{
+
+    margin-top:30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#d4af37;
+
+}
+
+.mgr-score-total strong{
+
+    font-size:34px;
+
+    color:#ffffff;
+
+}
 </style>
 
 </head>
@@ -1169,16 +1266,157 @@ document.addEventListener("DOMContentLoaded",()=>{
       ${OPTIONS.map(o=>`<label class="diag-option ${ans===o.value?'selected':''}"><input type="radio" name="diagResposta" value="${o.value}" ${ans===o.value?'checked':''}><div><strong>${o.title}</strong><small>${o.desc}</small></div></label>`).join('')}
       </div><div id="diagAlert" class="diag-alert"></div><div class="diag-footer-nav"><button class="diag-btn secondary" id="diagAnterior">${i===0?'Voltar ao cadastro':'Pergunta anterior'}</button><button class="diag-btn primary" id="diagProxima">${i===QUESTIONS.length-1?'Concluir diagnóstico':'Próxima pergunta'}</button></div></div>`;
     },
-    conclusaoHTML(){
-      const respondidas=this.state.respostas.filter(v=>v!==null).length,c=this.state.cliente;
-      return `<div class="diag-hero"><div class="diag-kicker">Atendimento concluído</div><h1 class="diag-title">Diagnóstico registrado com sucesso</h1><p class="diag-copy">As 15 respostas foram organizadas e vinculadas à estrutura local do CRM. O cálculo dos cinco scores será incorporado na Build 008.2.</p></div>
-      <div class="diag-question-card"><h3>Resumo do diagnóstico</h3><div class="diag-summary">
-       <div class="diag-summary-card"><span>Cliente</span><strong>${esc(c.nome)}</strong></div>
-       <div class="diag-summary-card"><span>Respostas registradas</span><strong>${respondidas}/15</strong></div>
-       <div class="diag-summary-card"><span>Data</span><strong>${esc(c.data.split('-').reverse().join('/'))}</strong></div>
-       <div class="diag-summary-card"><span>Consultor</span><strong>${esc(c.consultor)}</strong></div>
-      </div><div class="diag-actions"><button class="diag-btn primary" id="diagNovo">Novo atendimento</button><button class="diag-btn secondary" id="diagRevisar">Revisar respostas</button><button class="diag-btn ghost" id="diagAbrirCliente">Abrir no CRM</button></div></div>`;
-    },
+   conclusaoHTML(){
+
+    const respondidas=this.state.respostas.filter(v=>v!==null).length;
+    const c=this.state.cliente;
+
+    const s=calcularScores(this.state.respostas);
+
+    const barra=(valor)=>`
+        <div class="mgr-score-row">
+            <div class="mgr-score-bar">
+                <div class="mgr-score-fill" style="width:${valor}%"></div>
+            </div>
+            <span>${valor}%</span>
+        </div>
+    `;
+
+    return `
+
+    <div class="diag-hero">
+
+        <div class="diag-kicker">
+            Atendimento concluído
+        </div>
+
+        <h1 class="diag-title">
+            Diagnóstico registrado com sucesso
+        </h1>
+
+        <p class="diag-copy">
+
+            As respostas foram processadas e os Scores do Método MGR foram calculados automaticamente.
+
+        </p>
+
+    </div>
+
+    <div class="diag-question-card">
+
+        <h3>Resumo do diagnóstico</h3>
+
+        <div class="diag-summary">
+
+            <div class="diag-summary-card">
+                <span>Cliente</span>
+                <strong>${esc(c.nome)}</strong>
+            </div>
+
+            <div class="diag-summary-card">
+                <span>Respostas</span>
+                <strong>${respondidas}/15</strong>
+            </div>
+
+            <div class="diag-summary-card">
+                <span>Data</span>
+                <strong>${esc(c.data.split('-').reverse().join('/'))}</strong>
+            </div>
+
+            <div class="diag-summary-card">
+                <span>Consultor</span>
+                <strong>${esc(c.consultor)}</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="diag-question-card">
+
+        <h3>Scores do Método MGR</h3>
+
+        <div class="mgr-score-item">
+
+            <label>Proteção da Renda</label>
+
+            ${barra(s.renda)}
+
+        </div>
+
+        <div class="mgr-score-item">
+
+            <label>Proteção da Família</label>
+
+            ${barra(s.familia)}
+
+        </div>
+
+        <div class="mgr-score-item">
+
+            <label>Saúde</label>
+
+            ${barra(s.saude)}
+
+        </div>
+
+        <div class="mgr-score-item">
+
+            <label>Patrimônio</label>
+
+            ${barra(s.patrimonio)}
+
+        </div>
+
+        <div class="mgr-score-item">
+
+            <label>Longevidade Financeira</label>
+
+            ${barra(s.longevidade)}
+
+        </div>
+
+        <hr>
+
+        <div class="mgr-score-total">
+
+            SCORE GERAL MGR
+
+            <strong>${s.geral}%</strong>
+
+        </div>
+
+    </div>
+
+    <div class="diag-question-card">
+
+        <div class="diag-actions">
+
+            <button class="diag-btn primary" id="diagNovo">
+
+                Novo atendimento
+
+            </button>
+
+            <button class="diag-btn secondary" id="diagRevisar">
+
+                Revisar respostas
+
+            </button>
+
+            <button class="diag-btn ghost" id="diagAbrirCliente">
+
+                Abrir no CRM
+
+            </button>
+
+        </div>
+
+    </div>
+
+    `;
+
+},
     bind(){
       const by=id=>document.getElementById(id);
       if(by('diagClienteExistente')) by('diagClienteExistente').onchange=e=>{const c=Store.load('mgr_clientes',[])[Number(e.target.value)];if(!c)return;this.state.cliente={...this.state.cliente,nome:c.nome||'',whatsapp:c.whatsapp||c.fone||'',email:c.email||'',empresa:c.empresa||'',cidade:c.cidade||''};save(this.state);this.render();};
