@@ -1478,7 +1478,7 @@ function calcularScores(respostas){
     },
     captureCadastro(){const map={nome:'diagNome',whatsapp:'diagWhatsapp',email:'diagEmail',empresa:'diagEmpresa',cidade:'diagCidade',data:'diagData',consultor:'diagConsultor'};Object.entries(map).forEach(([k,id])=>{const e=document.getElementById(id);if(e)this.state.cliente[k]=e.value;});save(this.state);},
     message(t){const a=document.getElementById('diagAlert');if(a){a.textContent=t;a.classList.add('show');}},
-   concluir(){
+   async concluir(){
 
     const payload={
         id:'MGR-'+Date.now(),
@@ -1503,10 +1503,42 @@ function calcularScores(respostas){
 
     const historico=Store.load('mgr_diagnosticos',[]);
     historico.unshift(payload);
+
     Store.save(
         'mgr_diagnosticos',
         historico.slice(0,100)
     );
+
+    payload.sincronizado=false;
+
+    try{
+
+        const resposta=await fetch(
+            MGR_API+"/diagnosticos",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify(payload)
+            }
+        );
+
+        if(!resposta.ok)
+            throw new Error();
+
+        payload.sincronizado=true;
+
+        alert("Diagnóstico sincronizado com sucesso.");
+
+    }
+    catch(e){
+
+        alert(
+            "Falha na sincronização.\n\nO diagnóstico permanece salvo localmente e poderá ser reenviado posteriormente."
+        );
+
+    }
 
     this.state.step='conclusao';
 
