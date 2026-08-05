@@ -605,12 +605,29 @@ const App={
   btn.classList.add("active");
   this.render();
  },
- render(){
-  this.container.innerHTML=Views[this.currentPage](); if(this.currentPage==='leads') Lead.render(); if(this.currentPage==='clientes') Cliente.render();
- }
-};
+render(){
 
+    this.container.innerHTML = Views[this.currentPage]();
 
+    if(this.currentPage === "dashboard"){
+
+        setTimeout(carregarClientes,100);
+
+    }
+
+    if(this.currentPage === "leads"){
+
+        Lead.render();
+
+    }
+
+    if(this.currentPage === "clientes"){
+
+        Cliente.render();
+
+    }
+
+}
 
 
 function registrarEvento(cliente,tipo,texto){
@@ -1002,7 +1019,8 @@ async function carregarClientes(){
 
 App.init();
 App.render();
-carregarClientes();
+
+setTimeout(carregarClientes,500);
 </script>
 
 
