@@ -443,51 +443,6 @@ Visão geral do CRM Premium MGR
 
 </tbody>
 
-async function carregarClientes(){
-
-    const tbody=document.getElementById("leadTable");
-
-    if(!tbody) return;
-
-    tbody.innerHTML="";
-
-    try{
-
-        const resposta=await API.clientes();
-
-        if(!resposta.success) return;
-
-        resposta.data.forEach(cliente=>{
-
-            tbody.innerHTML+=`
-            <tr>
-
-                <td>${cliente.nome||""}</td>
-
-                <td>Landing Page</td>
-
-                <td>
-                    <span class="status novo">
-                        Cliente
-                    </span>
-                </td>
-
-                <td>Marcelo</td>
-
-            </tr>
-            `;
-
-        });
-
-    }catch(e){
-
-        console.error(e);
-
-    }
-
-}
-
-document.addEventListener("DOMContentLoaded",carregarClientes);
 
 <script>
 const Store={
@@ -502,15 +457,19 @@ const Services={
     const API={
     base:"https://mgr-api-crm.marceloprestes-economista.workers.dev",
 
-    async clientes(){
+   async clientes(){
 
-        const r=await fetch(this.base+"/clientes");
+    const r = await fetch(this.base + "/clientes");
 
-        return await r.json();
+    console.log("Status:", r.status);
 
-    }
+    const json = await r.json();
 
-};
+    console.log("Resposta da API:", json);
+
+    return json;
+
+}
 
 const Components={
  card:(t,c)=>`<div class="card"><span>${t}</span><h2>${c}</h2></div>`,
@@ -1001,8 +960,49 @@ Cliente.registrarConsultoria=function(){
 };
 
 Cliente.salvarCentro=function(){const c=this.list[this.selecionado];c.proximaAcao=document.getElementById('proximaAcao').value;registrarEvento(c,'Alteração','Próxima ação atualizada.');Store.save('mgr_clientes',this.list);alert('Atualizado');this.render();};
+
+async function carregarClientes(){
+
+    const tbody=document.getElementById("leadTable");
+
+    if(!tbody) return;
+
+    tbody.innerHTML="";
+
+    try{
+
+        const resposta=await API.clientes();
+
+        if(!resposta.success) return;
+
+        resposta.data.forEach(cliente=>{
+
+            tbody.innerHTML+=`
+            <tr>
+                <td>${cliente.nome||""}</td>
+                <td>Landing Page</td>
+                <td>
+                    <span class="status novo">
+                        Cliente
+                    </span>
+                </td>
+                <td>Marcelo</td>
+            </tr>
+            `;
+
+        });
+
+    }catch(e){
+
+        console.error(e);
+
+    }
+
+}
+
 App.init();
 App.render();
+carregarClientes();
 </script>
 
 
