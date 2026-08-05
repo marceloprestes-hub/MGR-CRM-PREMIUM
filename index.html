@@ -441,54 +441,53 @@ Visão geral do CRM Premium MGR
 
 <tbody id="leadTable">
 
-<tr>
-
-<td>João Martins</td>
-
-<td>Landing Page</td>
-
-<td><span class="status novo">Novo</span></td>
-
-<td>Marcelo</td>
-
-</tr>
-
-<tr>
-
-<td>Ana Costa</td>
-
-<td>Instagram</td>
-
-<td><span class="status contato">Contato</span></td>
-
-<td>Marcelo</td>
-
-</tr>
-
-<tr>
-
-<td>Carlos Henrique</td>
-
-<td>Google</td>
-
-<td><span class="status proposta">Proposta</span></td>
-
-<td>Marcelo</td>
-
-</tr>
-
 </tbody>
 
-</table>
+async function carregarClientes(){
 
-</div>
+    const tbody=document.getElementById("leadTable");
 
-</main>
+    if(!tbody) return;
 
-</div>
+    tbody.innerHTML="";
 
+    try{
 
+        const resposta=await API.clientes();
 
+        if(!resposta.success) return;
+
+        resposta.data.forEach(cliente=>{
+
+            tbody.innerHTML+=`
+            <tr>
+
+                <td>${cliente.nome||""}</td>
+
+                <td>Landing Page</td>
+
+                <td>
+                    <span class="status novo">
+                        Cliente
+                    </span>
+                </td>
+
+                <td>Marcelo</td>
+
+            </tr>
+            `;
+
+        });
+
+    }catch(e){
+
+        console.error(e);
+
+    }
+
+}
+
+document.addEventListener("DOMContentLoaded",carregarClientes);
 
 <script>
 const Store={
@@ -499,6 +498,18 @@ const Store={
 const Services={
  worker:null,
  d1:null
+};
+    const API={
+    base:"https://mgr-api-crm.marceloprestes-economista.workers.dev",
+
+    async clientes(){
+
+        const r=await fetch(this.base+"/clientes");
+
+        return await r.json();
+
+    }
+
 };
 
 const Components={
