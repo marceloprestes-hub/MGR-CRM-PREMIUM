@@ -635,9 +635,23 @@ const App={
   btn.classList.add("active");
   this.render();
  },
- render(){
-  this.container.innerHTML=Views[this.currentPage](); if(this.currentPage==='leads') Lead.render(); if(this.currentPage==='clientes') Cliente.render();
- }
+render(){
+
+  this.container.innerHTML=Views[this.currentPage]();
+
+  if(this.currentPage==='leads') {
+    Lead.render();
+  }
+
+  if(this.currentPage==='clientes') {
+    Cliente.render();
+  }
+
+  if(this.currentPage==='consultorias') {
+    ConsultoriaMGR.carregarD1();
+  }
+
+}
 };
 
 
@@ -1799,6 +1813,55 @@ function calcularScores(respostas){
     save(lista){
       Store.save(CONSULTORIAS_KEY,lista);
     },
+
+      async carregarD1(){
+  try{
+
+    const r=await fetch(
+      "https://mgr-api-crm.marceloprestes-economista.workers.dev/consultorias"
+    );
+
+    if(!r.ok){
+      throw new Error("HTTP "+r.status);
+    }
+
+    const resposta=await r.json();
+
+    if(!resposta.success || !Array.isArray(resposta.data)){
+      return;
+    }
+
+    const lista=resposta.data.map(x=>({
+      id:x.uuid || x.id || "",
+      d1Id:x.id || null,
+      clienteId:x.cliente_id || "",
+      clienteNome:x.cliente_nome || "",
+      clienteEmail:x.cliente_email || "",
+      clienteWhatsapp:x.cliente_whatsapp || "",
+      empresa:x.empresa || "",
+      data:x.data || x.data_consultoria || "",
+      hora:x.hora || "",
+      tipo:x.tipo || "Diagnóstico MGR",
+      status:x.status || "Agendada",
+      consultor:x.consultor || "Marcelo Prestes",
+      objetivo:x.objetivo || "",
+      observacoes:x.observacoes || "",
+      diagnosticoStatus:x.diagnostico_status || "Não iniciado",
+      criadoEm:x.criado_em || x.created_at || "",
+      atualizadoEm:x.atualizado_em || x.updated_at || "",
+      sincronizadoD1:true
+    }));
+
+    this.save(lista);
+
+    if(App.currentPage==="consultorias"){
+      App.render();
+    }
+
+  }catch(e){
+    console.error("Erro ao carregar consultorias do D1:",e);
+  }
+},
 
     novaDoCliente(){
       if(Cliente.selecionado<0){
